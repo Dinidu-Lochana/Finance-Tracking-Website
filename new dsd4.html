@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Wealth Wave Dashboard</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+            --main-color: #22BAA0;
+            --color-dark: #34425A;
+            --text-grey: #B0B0B0;
+            --transition-duration: 2000ms;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style-type: none;
+    box-sizing: border-box;
+    font-family: 'Merriweather', sans-serif;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+.sidebar {
+    position: fixed;
+    height: 100%;
+    width: 170px;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 100;
+    background: var(--color-dark);
+    transition: left var(--transition-duration), width var(--transition-duration);
+}
+
+.side-header {
+    box-shadow: 0px 5px 5px -5px rgb(0 0 0 /10%);
+    background: var(--main-color);
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.side-header h3, side-head span {
+    color: #fff;
+    font-weight: 400;
+}
+
+.side-content {
+    height: calc(100vh - 60px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* width */
+.side-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.side-content::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 100px;
+}
+ 
+/* Handle */
+.side-content::-webkit-scrollbar-thumb {
+  background: #b0b0b0; 
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.side-content::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+
+.sidebar-text {
+    margin-top: 0.2rem;
+}
+
+
+.profile {
+    text-align: center;
+    padding: 2rem 0rem;
+}
+
+.bg-img {
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.profile-img {
+  
+    padding-top: 0;
+    height: 80px;
+    width: 80px;
+    display: inline-block;
+    margin: 0 auto 0.2rem auto; 
+    border: 3px solid #899DC1;
+}
+
+.profile h4 {
+    color: #fff;
+    font-weight: 500;
+}
+
+.profile small {
+    color: #899DC1;
+    font-weight: 600;
+}
+
+.sidebar {
+    /*overflow-y: auto;*/
+}
+
+.side-menu ul {
+    text-align: center; 
+    padding: 0; 
+}
+
+.side-menu a {
+    display: block;
+    padding: 1.2rem 0rem;
+    text-align: center; 
+}
+
+.container1 {
+  margin-top: 20px;
+}
+
+.side-menu a.active {
+    background: #2B384E;
+}
+
+.side-menu a.active span, .side-menu a.active small {
+    color: #fff;
+}
+
+.side-menu a span {
+    display: block;
+    text-align: center; /* Center-align the icon */
+    font-size: 1.7rem;
+}
+
+.side-menu a span, .side-menu a small {
+    color: #899DC1;
+}
+
+#menu-toggle:checked ~ .sidebar {
+    width: 60px;
+    left: 0; 
+}
+
+#menu-toggle:checked ~ .sidebar .side-header span {
+    display: none;
+}
+
+#menu-toggle:checked ~ .main-content {
+    margin-left: 60px;
+    width: calc(100% - 60px);
+}
+
+#menu-toggle:checked ~ .main-content header {
+    left: 60px;
+}
+
+#menu-toggle:checked ~ .sidebar .profile,
+#menu-toggle:checked ~ .sidebar .side-menu a small {
+    display: none;
+}
+
+#menu-toggle:checked ~ .sidebar .side-menu a span {
+    font-size: 1.3rem;
+}
+
+.main-content {
+    margin-left: 165px;
+    width: calc(100% - 165px);
+    transition: margin-left 300ms;
+}
+
+header {
+    position: fixed;
+    right: 0;
+    top: 0;
+    left: 165px;
+    z-index: 100;
+    height: 60px;
+    box-shadow: 0px 5px 5px -5px rgb(0 0 0 /10%);
+    background: #fff;
+    transition: left 300ms;
+}
+
+.header-content, .header-menu {
+    display: flex;
+    align-items: center;
+}
+
+.header-content {
+    justify-content: space-between;
+    padding: 0rem 1rem;
+}
+
+.header-content label:first-child span {
+    font-size: 1.3rem;
+}
+
+.header-content label {
+    cursor: pointer;
+}
+
+.header-menu {
+    justify-content: flex-end;
+    padding-top: .5rem;
+}
+
+.header-menu label,
+.header-menu .notify-icon {
+    margin-right: 2rem;
+    position: relative;
+}
+
+.header-menu label span,
+.notify-icon span:first-child {
+    font-size: 1.3rem;
+}
+
+.notify-icon span:last-child {
+    position: absolute;
+    background: var(--main-color);
+    height: 16px;
+    width: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    right: -5px;
+    top: -5px;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 500;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.user div, .client-img {
+    height: 40px;
+    width: 40px;
+    margin-right: 1rem;
+}
+
+.user span:last-child {
+    display: inline-block;
+    margin-left: .3rem;
+    font-size: .8rem;
+}
+
+main {
+    margin-top: 60px;
+}
+
+.page-header {
+    padding: 1.3rem 1rem;
+    background: #E9edf2;
+    border-bottom: 1px solid #dee2e8;
+}
+
+.page-header h1, .page-header small {
+    color: #74767d;
+}
+
+.page-content {
+    padding: 1.3rem 1rem;
+    background: #f1f4f9;
+}
+
+.analytics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2rem;
+    margin-top: .5rem;
+    margin-bottom: 2rem;
+}
+
+.indicator {
+    height: 10px;
+    border-radius: 4px;
+}
+
+.indicator.one {
+    background: #22baa0;
+}
+
+.indicator.two {
+    background: #11a8c3;
+}
+
+.indicator.three {
+    background: #f6d433;
+}
+
+.indicator.four {
+    background: #f25656;
+}
+
+.records {
+    box-shadow: 0px 5px 5px -5px rgb(0 0 0 / 10%);
+    background: #fff;
+    border-radius: 3px;
+}
+
+.record-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add, .browse {
+    display: flex;
+    align-items: center;
+}
+
+.add span {
+    display: inline-block;
+    margin-right: .6rem;
+    font-size: .9rem;
+    color: #666;
+}
+
+input, button, select {
+    outline: none;
+}
+
+.add select, .browse input, .browse select {
+    height: 35px;
+    border: 1px solid #b0b0b0;
+    border-radius: 3px;
+    display: inline-block;
+    width: 75px;
+    padding: 0rem .5rem;
+    margin-right: .8rem;
+    color: #666;
+}
+
+.add button {
+    background: var(--main-color);
+    color: #fff;
+    height: 37px;
+    border-radius: 4px;
+    padding: 0rem 1rem;
+    border: none;
+    font-weight: 600;
+}
+
+.browse input {
+    width: 150px;
+}
+
+.browse select {
+    width: 100px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table thead tr {
+    background: #e9edf2;
+}
+
+table thead th {
+    padding: 1rem 0rem;
+    text-align: left;
+    color: #444;
+    font-size: .9rem;
+}
+
+table thead th:first-child {
+    padding-left: 1rem;
+}
+
+table tbody td {
+    padding: 1rem 0rem;
+    color:
+    #444;
+}
+
+table tbody td:first-child {
+    padding-left: 1rem;
+    color: var(--main-color);
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #dee2e8;
+}
+
+.client {
+    display: flex;
+    align-items: center;
+}
+
+.client-img {
+    margin-right: .5rem;
+    border: 2px solid #b0b0b0;
+    height: 45px;
+    width: 45px;
+}
+
+.client-info h4 {
+    color: #555;
+    font-size: .95rem;
+}
+
+.client-info small {
+    color: #777;
+}
+
+.actions span {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
+
+.paid {
+    display: inline-block;
+    text-align: center;
+    font-weight: 600;
+    color: var(--main-color);
+    background: #e5f8ed;
+    padding: .5rem 1rem;
+    border-radius: 20px;
+    font-size: .8rem;
+}
+ .container {
+      text-align: center;
+      width: 100%;
+      max-width: 1920px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 50px;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .container.hidden {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    .Items {
+      margin: 100px auto;
+    }
+	h1{
+		font-family:pacifico;
+	}
+	h2{
+		font-family:pacifico;
+	}
+
+    h3 {
+      font-family: inherit;
+      color: #008000;
+      margin-top: 20px;
+    }
+
+    .Items img {
+      width: 80px;
+	  margin-bottom:22px;
+    }
+
+    ul {
+      text-align: center;
+    }
+
+    ul li {
+      display: inline-block;
+      width: 250px;
+      position: relative;
+    }
+
+    ul li .fa {
+      background: #ccc;
+      width: 18px;
+      height: 18px;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px;
+    }
+
+    ul li .fa::after {
+      content: '';
+      background: #ccc;
+      height: 5px;
+      width: 300px;
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 110px;
+      z-index: -1;
+    }
+
+    ul li:nth-child(3) .fa {
+      background: #000000;
+    }
+
+    ul li:nth-child(3) .fa::after {
+      background: #000000;
+    }
+
+    ul li:nth-child(1) .fa,
+    ul li:nth-child(2) .fa {
+      background: #333333;
+    }
+
+    ul li:nth-child(1) .fa::after,
+    ul li:nth-child(2) .fa::after {
+      background: #333333
+    }
+
+    ul li:nth-child(4) .fa,
+    ul li:nth-child(5) .fa {
+      background: #000000;
+    }
+
+    ul li:first-child .fa::after {
+      width: 120px;
+      left: 135px;
+    }
+
+    ul li:last-child .fa::after {
+      width: 120px;
+    }
+
+    /* Additional styles for the contact us section */
+    .contact-us {
+      display: none;
+      margin-top: 20px;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    }
+
+    .show-contact-us {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Button styles */
+    .show-contact-button {
+      background-color: #008000;
+      color: #fff;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .show-contact-button:hover {
+      background-color: #005700; /* Darker green on hover */
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      border-radius: 8px;
+      max-width: 600px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+    .container1 {
+    display: flex;
+    width: 67%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-left: 250px;
+    transform: translateY(0);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    margin-bottom: 20px; 
+}
+
+.left{
+	width: 25%;
+	font-weight: bold;
+
+}
+.left p{
+	padding: 30px 20px;
+}
+.methods{
+	padding: 10px 0;
+}
+.methods div{
+	padding: 7px 20px;
+	cursor: pointer;
+	font-size: 15px;
+}
+.methods div:hover{
+	box-shadow: 0 0 10px rgba(172, 255, 47, 0.196);
+}
+.methods div::after{
+	content: '';
+	display: inline-block;
+	color: greenyellow;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 4px 0 4px 4px;
+	border-left-color: var(--fondy-success);
+	margin-left: 10px;
+}
+.fa-solid{
+	margin-right: 10px;
+	font-size: 22px;
+	color: #aaa;
+}
+.center{
+	width: 50%;
+	border-right: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	height: 70vh;
+}
+.center a{
+	width: 100%;
+	padding: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.right{
+	width: 25%;
+}
+.right p{
+	padding: 30px 20px;
+	font-weight: bold;
+}
+.details{
+	padding: 20px 20px;
+}
+.right a{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 15px;
+}
+.card-details{
+	padding: 20px 80px;
+}
+
+.card-details .c-number{
+	width: 100%;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	padding: 0 12px;
+	margin-top: 10px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+input{
+	border: none;
+	border-radius: 3px;
+	outline: none;
+}
+.c-details{
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	margin: 20px 0;
+}
+.cc-exp{
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	height: 50px;
+	margin-top: 10px;
+	padding: 12px;
+	width: 150px;
+}
+.c-details .cvv-box{
+	border: 1px solid #aaa;
+	margin-top: 10px;
+	padding: 12px;
+	height: 50px;
+	border-radius: 3px;
+	display: flex;
+	justify-content: space-between;
+	width: 108px;
+}
+.cc-cvv{
+	width: 60px;
+}
+.email input{
+	width: 100%;
+	border: 1px solid #aaa;
+	border-radius: 3px;
+	padding: 12px;
+	height: 50px;
+	margin-top: 10px;
+}
+button{
+	width: 100%;
+	border: none;
+	height: 50px;
+	border-radius: 3px;
+	margin-top: 30px;
+	font-size: 18px;
+	color: #444;
+	background-color: greenyellow;
+}
+button:hover{
+	background-color: #444;
+	color: white;
+	cursor: pointer;
+}
+
+@media only screen and (max-width: 1200px) {
+    .analytics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .analytics {
+        grid-template-columns: 100%;
+    }
+    
+    .sidebar {
+        left: -165px;
+        z-index: 90;
+    }
+    
+    header {
+        left: 0;
+        width: 100%;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    #menu-toggle:checked ~ .sidebar {
+        left: 0;
+    }
+    
+    #menu-toggle:checked ~ .sidebar {
+        width: 165px;
+    }
+
+    #menu-toggle:checked ~ .sidebar .side-header span {
+        display: inline-block;
+    }
+
+    #menu-toggle:checked ~ .sidebar .profile,
+    #menu-toggle:checked ~ .sidebar .side-menu a small {
+        display: block;
+    }
+
+    #menu-toggle:checked ~ .sidebar .side-menu a span {
+        font-size: 1.7rem;
+    }
+    
+    #menu-toggle:checked ~ .main-content header {
+        left: 0px;
+    }
+    
+    table {
+        width: 900px;
+    }
+}
+</style>
+   <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>W<span>ealthWave</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(img/3.jpeg)"></div>
+                <h4>John</h4>
+                
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                       <a href="practice.html" >
+                            <span class="material-icons-sharp">dashboard</span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="user settings.html">
+                            <span class="las la-user-alt"></span>
+                            <small>Profile</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="" class="active">
+                        
+                            <span class="las la-university"></span>
+                            <small>Transactions</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="analyzepractise.html">
+                            <span class="material-icons-sharp">query_stats</span>
+							<small>Analysis</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="new 4.html">
+                       
+                            <span class="las la-wallet"></span>
+							<small>Expense Limit</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="">
+                            <span class="material-icons-sharp">settings</span>
+							<small>Settings</small>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                
+                <div class="header-menu">
+                    <label for="">
+                        <span class="las la-search"></span>
+                    </label>
+                    
+                    <div class="notify-icon">
+                        <span class="las la-envelope"></span>
+                        <span class="notify">4</span>
+                    </div>
+                    
+                    <div class="notify-icon">
+                        <span class="las la-bell"></span>
+                        <span class="notify">3</span>
+                    </div>
+                    
+                    <div class="user">
+                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                        
+                        <span class="las la-power-off"></span>
+                        <span>Logout</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        
+          <div class="container">
+    <h1>PAYMENT</h1>
+    <h2>Financial Freedom Starts Here: Explore Our Money Tracker Services</h2>
+    <div class="Items">
+      <ul>
+        <li>
+          <img src="review_11494282.png">
+        </li>
+        <li>
+          <img src="owners_3192550.png">
+        </li>
+        <li>
+          <img src="immunity_4508741.png">
+        </li>
+      </ul>
+    </div>
+    <div class="Items">
+      <ul>
+        <li>
+          <img src="gear_4115504.png"><br>
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+          <p><b>Select Service</b></p>
+        </li>
+        <li>
+          <img src="support_2890392.png"><br>
+          <i class="fa fa-check-square-o" aria-hidden="true"></i>
+          <p><b>Contact Provider</b></p>
+        </li>
+		<li>
+          <img src="payment_2416201.png"><br>
+		  <i class="fa fa-refresh"></i>
+          
+          <p><b>Make Payment</b></p>
+        </li>
+        <li>
+          <img src="clipboard_6715905.png"><br>
+          <i class="fa fa-times"></i>
+          <p><b>Add Your Details</b></p>
+        </li>
+        
+        <li>
+          <img src="book_1150088.png"><br>
+          <i class="fa fa-times"></i>
+          <p><b>Download eBook</b></p>
+        </li>
+      </ul>
+    </div>
+	<h5></h5>
+	
+    <h3>"Welcome to our cutting-edge Money Tracker, 
+      where we prioritize your financial peace of mind. 
+      Our platform is designed for service providers seeking 
+      a seamless and secure payment experience. With us, you can to safeguarding your financial interests.
+      Explore the simplicity of our platform, where secure payments and your trust are
+      at the heart of what we do. Join us and experience a new era of reliable,
+      hassle-free financial management tailored exclusively for service providers."
+    </h3>
+
+<div id="contactModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeContactModal()">&times;</span>
+    <h2>Contact Us</h2>
+    <div class="contact-form">
+      <label for="name">Name   :</label>
+      <input type="text" id="name" name="name" required>
+	  <h1></h1>
+
+      <label for="email">  Email  :</label>
+      <input type="email" id="email" name="email" required>
+	  <h1></h1>
+
+      <label for="message">  Message     :</label>
+      <textarea id="message" name="message"  required></textarea>
+	  <h1></h1>
+
+      <label for="ratings">Ratings:</label>
+      <div id="ratings" class="star-ratings">
+        <span class="star" onclick="rateStar(1)">&#9733;</span>
+        <span class="star" onclick="rateStar(2)">&#9733;</span>
+        <span class="star" onclick="rateStar(3)">&#9733;</span>
+        <span class="star" onclick="rateStar(4)">&#9733;</span>
+        <span class="star" onclick="rateStar(5)">&#9733;</span>
+      </div>
+	  <h1></h1>
+
+      <button type="button" onclick="submitForm()">Submit</button>
+    </div>
+  </div>
+</div>
+<h2></h2>
+<h2>MAKE PAYMENT</h2>
+<h2></h2>
+<div class="container1">
+		<div class="left">
+			<p>Payment methods</p>
+			<hr style="border:1px solid #ccc; margin: 0 15px;">
+			<div class="methods">
+				<div onclick="doFun()" id="tColorA" style="color: greenyellow;"> Payment by card</div>
+				<div onclick="doFunA()" id="tColorB"><i class="fa-solid fa-building-columns"></i> Internet banks</div>
+				<div onclick="doFunB()" id="tColorC"><i class="fa-solid fa-wallet"></i> Apple/Google pay</div>
+			</div>
+			<hr style="border:1px solid #ccc; margin: 0 15px;">
+		</div>
+		<div class="center">
+			<a href="#"><img alt="Credit Card Logos" title="Credit Card Logos" src="https://www.shift4shop.com/images/credit-card-logos/cc-lg-4.png" width="250" height="auto"/></a>
+			<hr style="border:1px solid #ccc; margin: 0 15px;">
+
+			<div class="card-details">
+				<form>
+					<p>Card number</p>
+					<div class="c-number" id="c-number">
+						<input id="number" class="cc-number" placeholder="Card number" maxlength="19" required>
+					
+					</div>
+
+					<div class="c-details">
+						<div>
+							<p>Expiry date</p>
+							<input id="e-date" class="cc-exp" placeholder="MM/YY" required maxlength="5" required>
+						</div>
+						<div>
+							<p>CVV</p>
+							<div class="cvv-box" id="cvv-box">
+								<input id="cvv" class="cc-cvv" placeholder="CVV" required maxlength="3" required>
+								<i class="fa-solid fa-circle-question" title="3 digits on the back of the card" style="cursor: pointer;"></i>
+							</div>
+						</div>
+					</div>
+					<div class="email">
+						<p>Email</p>
+						<input type="email" placeholder="example@email.com" id="email" required>
+					</div>
+					<button>PAY NOW</button>
+				</form>
+			</div>
+		</div>
+
+
+		<div class="right">
+			<p>Order information</p>
+			<hr style="border:1px solid #ccc; margin: 0 15px;">
+			<div class="details">
+				<div style="font-weight: bold; padding: 3px 0;">Order discription</div>
+				<div style="padding: 3px 0;">Test payment</div>
+			</div>
+			<hr style="border:1px solid #ccc; margin: 0 15px;">
+			<a href="#"><img alt="Credit Card Logos" title="Credit Card Logos" src="https://www.shift4shop.com/images/credit-card-logos/cc-lg-4.png" width="100%" height="auto" /></a>
+		</div>
+		
+	</div>
+
+
+<script>
+  // Function to set the selected rating
+  function rateStar(rating) {
+    var stars = document.querySelectorAll('.star');
+    stars.forEach(function (star, index) {
+      if (index + 1 <= rating) {
+        star.classList.add('selected');
+      } else {
+        star.classList.remove('selected');
+      }
+    });
+  }
+</script>
+
+  </div>
+
+  <!-- Button to trigger the contact us modal -->
+  <button id="contactButton" onclick="openContactModal()" class="show-contact-button">Show Contact Us</button>
+
+  <script>
+    function openContactModal() {
+      var contactModal = document.getElementById('contactModal');
+      contactModal.style.display = 'block';
+    }
+
+    function closeContactModal() {
+      var contactModal = document.getElementById('contactModal');
+      contactModal.style.display = 'none';
+    }
+
+    function submitForm() {
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var message = document.getElementById('message').value;
+
+      if (name.trim() === '' || email.trim() === '' || message.trim() === '') {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // You can replace this with actual form submission logic
+      alert('Form submitted!\nName: ' + name + '\nEmail: ' + email + '\nMessage: ' + message);
+
+      // Optional: Clear form fields after submission
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('message').value = '';
+    }
+	function rateStar(rating) {
+    var stars = document.querySelectorAll('.star');
+    stars.forEach(function (star, index) {
+      if (index + 1 <= rating) {
+        star.classList.add('selected');
+      } else {
+        star.classList.remove('selected');
+      }
+    });
+  }
+  let tColorA = document.getElementById('tColorA'),
+tColorB = document.getElementById('tColorB'),
+tColorC = document.getElementById('tColorC'),
+iconA = document.querySelector('.fa-credit-card'),
+iconB = document.querySelector('.fa-building-columns'),
+iconC = document.querySelector('.fa-wallet'),
+cDetails = document.querySelector('.card-details');
+
+
+function doFun(){
+ tColorA.style.color = "greenyellow";
+ tColorB.style.color = "#444";
+ tColorC.style.color = "#444";
+ iconA.style.color = "greenyellow";
+ iconB.style.color = "#aaa";
+ iconC.style.color = "#aaa";
+ cDetails.style.display = "block";
+}
+function doFunA(){
+ tColorA.style.color = "#444";
+ tColorB.style.color = "greenyellow";
+ tColorC.style.color = "#444";
+ iconA.style.color = "#aaa";
+ iconB.style.color = "greenyellow";
+ iconC.style.color = "#aaa";
+ cDetails.style.display = "none";
+}
+function doFunB(){
+ tColorA.style.color = "#444";
+ tColorB.style.color = "#444";
+ tColorC.style.color = "greenyellow";
+ iconA.style.color = "#aaa";
+ iconB.style.color = "#aaa";
+ iconC.style.color = "greenyellow";
+ cDetails.style.display = "none";
+}
+let cNumber = document.getElementById('number');
+cNumber.addEventListener('keyup', function(e){
+ let num = cNumber.value;
+
+ let newValue = '';
+ num = num.replace(/\s/g, '');
+ for(var i = 0; i < num.length; i++) {
+  if(i%4 == 0 && i > 0) newValue = newValue.concat(' ');
+  newValue = newValue.concat(num[i]);
+  cNumber.value = newValue;
+ }
+
+ let ccNum = document.getElementById('c-number');
+ if(num.length<16){
+  ccNum.style.border="1px solid red";
+ }else{
+  ccNum.style.border="1px solid greenyellow";
+ }
+});
+
+let eDate = document.getElementById('e-date');
+eDate.addEventListener('keyup', function( e ){
+
+ let newInput = eDate.value;
+
+ if(e.which !== 8) {
+  var numChars = e.target.value.length;
+  if(numChars == 2){
+   var thisVal = e.target.value;
+   thisVal += '/';
+   e.target.value = thisVal;
+   console.log(thisVal.length)
+  }
+ }
+
+ if(newInput.length<5){
+  eDate.style.border="1px solid red";
+ }else{
+  eDate.style.border="1px solid greenyellow";
+ }
+});
+
+let cvv = document.getElementById('cvv');
+cvv.addEventListener('keyup', function(e){
+
+ let elen = cvv.value;
+ let cvvBox = document.getElementById('cvv-box');
+ if(elen.length<3){
+  cvvBox.style.border="1px solid red";
+ }else{
+  cvvBox.style.border="1px solid greenyellow";
+ }
+})
+  </script>  
+        
+    </div>
+</body>
+</html>

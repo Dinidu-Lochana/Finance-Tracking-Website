@@ -1,0 +1,148 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "poppins", sans-serif;
+    
+}
+
+.banner {
+    background-color: aliceblue;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.banner ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.banner ul li {
+    margin: 0 20px;
+    position: relative;
+}
+
+.banner ul li a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.banner ul li a:hover {
+    color: blueviolet;
+}
+
+.banner ul li img {
+    display: inline-block;
+    max-height: 40px; 
+}
+
+.banner ul li.dropdown {
+    position: relative;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: aliceblue;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown ul {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.dropdown ul li {
+    width: 150px;
+    padding: 10px;
+}
+
+
+.banner ul li:hover .dropdown {
+    display: block;
+}
+
+h1 {
+    padding: 2rem;
+    
+    border: 0;
+    border-color: transparent;
+
+}
+
+.analysepart{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+   
+    border: 0;
+    padding: 10px; 
+}
+
+
+.expense,.income{
+    border: 1px solid #ddd; 
+    border-radius: 50px;
+    padding: 10px
+}
+
+
+#expenseDoughnutChart,
+#incomeDoughnutChart {
+    
+    padding: 1rem;
+    padding-bottom: 2rem;
+
+    max-width: 600px; 
+    width: 100%; 
+    height: auto; 
+    margin: 10px; 
+}
+
+
+
+.baranalyse{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+   
+
+    padding: 10px; 
+}
+
+
+
+.barGraph1,.barGraph2{
+    border: 1px solid #ddd; 
+    border-radius: 50px;
+    padding: 10px;
+    text-align: center;
+}
+
+
+#incomeBarChart,
+#expenseBarChart {
+    
+    padding: 1rem;
+    padding-bottom: 2rem;
+
+    max-width: 600px; 
+    width: 100%; 
+    height: auto; 
+    margin: 10px; 
+}
+
